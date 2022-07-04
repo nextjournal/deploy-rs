@@ -253,6 +253,12 @@ async fn get_deployment_data(
         .await
         .map_err(GetDeploymentDataError::NixEvalOut)?;
 
+    let data_err_json = String::from_utf8(build_output.stderr)?;
+    let data_out_json = String::from_utf8(build_output.stdout)?;
+
+    print!(data_err_json);
+    print!(data_out_json);
+
     match build_output.status.code() {
         Some(0) => (),
         a => return Err(GetDeploymentDataError::NixEvalExit(a)),
